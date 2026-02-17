@@ -1,0 +1,8 @@
+{
+  "name": "VisionGuard - Smart Assistive Dashboard",
+  "description": "A comprehensive caregiver dashboard for monitoring visually impaired users with real-time GPS tracking, SOS alerts, and device health monitoring.",
+  "requestFramePermissions": [
+    "geolocation",
+    "camera"
+  ]
+}
