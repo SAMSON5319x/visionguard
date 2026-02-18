@@ -174,13 +174,16 @@ const App: React.FC = () => {
   const containerClasses = `flex min-h-screen transition-colors duration-300 ${accSettings.highContrast ? 'high-contrast' : 'bg-slate-50'} ${accSettings.largeFont ? 'large-font' : ''}`;
 
   return (
-    <div className={containerClasses}>
-      <Sidebar 
-        activeTab={activeTab} 
-        setActiveTab={setActiveTab} 
-        accessibilityMode={accSettings.highContrast}
-        onLogout={handleLogout}
-      />
+    <div className={`${containerClasses} flex-col md:flex-row`}>
+      <div className="hidden md:block">
+        <Sidebar 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
+          accessibilityMode={accSettings.highContrast}
+          onLogout={handleLogout}
+        />
+      </div>
+
 
       <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-10">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
@@ -221,7 +224,7 @@ const App: React.FC = () => {
 
         {activeTab === 'dashboard' && (
           <div className="space-y-10">
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-4">
               <StatCard label="Battery Level" value={`${device.battery}%`} icon={Battery} status={device.battery < 20 ? 'critical' : 'good'} contrast={accSettings.highContrast} />
               <StatCard label="GPS Signal" value="Strong" icon={Signal} status="good" contrast={accSettings.highContrast} />
               <StatCard label="Connectivity" value={device.status} icon={Smartphone} status={device.status === 'Online' ? 'good' : 'bad'} contrast={accSettings.highContrast} />
@@ -234,7 +237,7 @@ const App: React.FC = () => {
                   <h3 className="text-xl font-black flex items-center gap-3"><MapPin className="text-blue-600 w-6 h-6" /> Recent Path</h3>
                   <button onClick={() => setActiveTab('tracking')} className="text-sm text-blue-600 font-black flex items-center gap-1 group">Full Screen Tracking <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></button>
                 </div>
-                <div className="h-[450px] relative overflow-hidden rounded-3xl border border-slate-100">
+                <div className="h-[300px] sm:h-[400px] lg:h-[450px] relative overflow-hidden rounded-3xl border border-slate-100">
                   <LiveMap location={userPos} accessibilityMode={accSettings.highContrast} geofences={locations} />
                 </div>
               </div>
@@ -548,6 +551,14 @@ const App: React.FC = () => {
             </div>
           </div>
         )}
+        {/* Mobile Bottom Navigation */}
+        <div className="fixed bottom-0 left-0 right-0 md:hidden bg-white border-t border-slate-200 flex justify-around py-3 shadow-lg z-50">
+          <button onClick={() => setActiveTab('dashboard')} className="text-xs font-bold">Dashboard</button>
+          <button onClick={() => setActiveTab('tracking')} className="text-xs font-bold">Tracking</button>
+          <button onClick={() => setActiveTab('alerts')} className="text-xs font-bold">Alerts</button>
+          <button onClick={() => setActiveTab('settings')} className="text-xs font-bold">Settings</button>
+        </div>
+
       </main>
     </div>
   );
